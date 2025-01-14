@@ -24,6 +24,7 @@ test.describe('Login Tests', () => {
       await loginPage.login(testData.user.username, testData.user.password);
       expect(await dashboardPage.isDashboardPageDisplayed()).toBe(true);
     });
+
     test('Username and Password cannot be empty', async () => {
         await loginPage.go();
         expect(await loginPage.isLoginPageDisplayed()).toBe(true);
@@ -32,7 +33,6 @@ test.describe('Login Tests', () => {
         expect(await loginPage.passwordIsRequiredErrorDisplayed()).toBe(true);
     });
  
-  
     test('Invalid credentials', async () => {
         await loginPage.go();
         expect(await loginPage.isLoginPageDisplayed()).toBe(true);
@@ -49,5 +49,5 @@ test.describe('Login Tests', () => {
         expect(await loginPage.getErrorMessage()).toBe(testData.errorMessages.invalidCredentials);
         await loginPage.login(testData.user.username, testData.user.password);
         expect(await dashboardPage.isDashboardPageDisplayed()).toBe(true);
-      });
+    });
 });
