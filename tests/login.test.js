@@ -1,6 +1,7 @@
 import LoginPage from '../pages/LoginPage';
 import DashboardPage from '../pages/DashboardPage';
 const { test, expect } = require('@playwright/test');
+const testData = require('../utils/data/login').default;
 
 const loginPage = new LoginPage();
 const dashboardPage = new DashboardPage();
@@ -20,7 +21,7 @@ test.describe('Login Tests', () => {
   test('User can login successfully', async () => {
       await loginPage.go();
       expect(await loginPage.isLoginPageDisplayed()).toBe(true);
-      await loginPage.login("Admin", "admin123");
+      await loginPage.login(testData.user.username, testData.user.password);
       expect(await dashboardPage.isDashboardPageDisplayed()).toBe(true);
     });
     test('Username and Password cannot be empty', async () => {
@@ -35,18 +36,18 @@ test.describe('Login Tests', () => {
     test('Invalid credentials', async () => {
         await loginPage.go();
         expect(await loginPage.isLoginPageDisplayed()).toBe(true);
-        await loginPage.login("Admin", "fail");
+        await loginPage.login(testData.user.username, testData.user.invalidPassword);
         expect(await loginPage.isErrorMessageDisplayed()).toBe(true);
-        expect(await loginPage.getErrorMessage()).toBe("Invalid credentials");
+        expect(await loginPage.getErrorMessage()).toBe(testData.errorMessages.invalidCredentials);
     });
 
     test('User can login after a failed attempt', async () => {
         await loginPage.go();
         expect(await loginPage.isLoginPageDisplayed()).toBe(true);
-        await loginPage.login("Admin", "fail");
+        await loginPage.login(testData.user.username, testData.user.invalidPassword);
         expect(await loginPage.isErrorMessageDisplayed()).toBe(true);
-        expect(await loginPage.getErrorMessage()).toBe("Invalid credentials");
-        await loginPage.login("Admin", "admin123");
+        expect(await loginPage.getErrorMessage()).toBe(testData.errorMessages.invalidCredentials);
+        await loginPage.login(testData.user.username, testData.user.password);
         expect(await dashboardPage.isDashboardPageDisplayed()).toBe(true);
       });
 });
