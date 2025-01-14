@@ -1,7 +1,7 @@
 export default class BasePage {
-    BASE_URL = 'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login';
+    #BASE_URL = 'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login';
 
-    $loadingPage = 'html[class="fontawesome-i2svg-active fontawesome-i2svg-complete"]'
+    #loadingPage = 'html[class="fontawesome-i2svg-active fontawesome-i2svg-complete"]'
 
     constructor(page) {
       this.page = page;
@@ -12,7 +12,7 @@ export default class BasePage {
     }
 
     async navigate(url) {
-      await this.page.goto(`${this.BASE_URL}${url}`);
+      await this.page.goto(`${this.#BASE_URL}${url}`);
     }
 
     async getElementProperty(selector, property) {
@@ -37,7 +37,7 @@ export default class BasePage {
     }
     
     async waitForPageLoaded() {
-      await this.page.waitForSelector(this.$loadingPage);
+      await this.page.waitForSelector(this.#loadingPage);
     }
     
     async getElementsProperties(selector, property) {

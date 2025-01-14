@@ -23,4 +23,30 @@ test.describe('Login Tests', () => {
       await loginPage.login("Admin", "admin123");
       expect(await dashboardPage.isDashboardPageDisplayed()).toBe(true);
     });
+    test('Username and Password cannot be empty', async () => {
+        await loginPage.go();
+        expect(await loginPage.isLoginPageDisplayed()).toBe(true);
+        await loginPage.clickLoginButton();
+        expect(await loginPage.usernameIsRequiredErrorDisplayed()).toBe(true);
+        expect(await loginPage.passwordIsRequiredErrorDisplayed()).toBe(true);
+    });
+ 
+  
+    test('Invalid credentials', async () => {
+        await loginPage.go();
+        expect(await loginPage.isLoginPageDisplayed()).toBe(true);
+        await loginPage.login("Admin", "fail");
+        expect(await loginPage.isErrorMessageDisplayed()).toBe(true);
+        expect(await loginPage.getErrorMessage()).toBe("Invalid credentials");
+    });
+
+    test('User can login after a failed attempt', async () => {
+        await loginPage.go();
+        expect(await loginPage.isLoginPageDisplayed()).toBe(true);
+        await loginPage.login("Admin", "fail");
+        expect(await loginPage.isErrorMessageDisplayed()).toBe(true);
+        expect(await loginPage.getErrorMessage()).toBe("Invalid credentials");
+        await loginPage.login("Admin", "admin123");
+        expect(await dashboardPage.isDashboardPageDisplayed()).toBe(true);
+      });
 });

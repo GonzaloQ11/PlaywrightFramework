@@ -1,22 +1,18 @@
 import BasePage from './BasePage';
 
 export default class LoginPage extends BasePage {
-    $usernameInput = '[name="username"]';
+    #usernameInput = '[name="username"]';
+    #passwordInput = '[name="password"]';
+    #loginButton = 'button[type="submit"]';
+    #inputErrorValidation = "[class*=oxd-input--error]"
+    #errorMessageContainer = "p[class*=oxd-alert-content-text]"
 
-    $passwordInput = '[name="password"]';
-
-    $loginButton = 'button[type="submit"]';
-
-    $errorMessageContainer = '#spanMessage';
-
-    async go() {
-      await this.navigate('');
-    }
+    go = async () =>  await this.navigate('');
     
     async isLoginPageDisplayed() {
-      const isLoginButtonDisplayed = await this.isDisplayed(this.$loginButton);
-      const isUsernameInputDisplayed = await this.isDisplayed(this.$usernameInput);
-      const isPasswordInputDisplayed = await this.isDisplayed(this.$passwordInput);
+      const isLoginButtonDisplayed = await this.isDisplayed(this.#loginButton);
+      const isUsernameInputDisplayed = await this.isDisplayed(this.#usernameInput);
+      const isPasswordInputDisplayed = await this.isDisplayed(this.#passwordInput);
       return isLoginButtonDisplayed && isUsernameInputDisplayed && isPasswordInputDisplayed;
     }
 
@@ -26,23 +22,17 @@ export default class LoginPage extends BasePage {
       await this.clickLoginButton();
     }
 
-    async typeUsername(username) {
-      await this.page.fill(this.$usernameInput, username);
-    }
+    typeUsername = async (username) => await this.page.fill(this.#usernameInput, username);
 
-    async typePassword(password) {
-      await this.page.fill(this.$passwordInput, password);
-    }
+    typePassword = async (password) => await this.page.fill(this.#passwordInput, password);
 
-    async clickLoginButton() {
-      await this.page.click(this.$loginButton);
-    }
-
-    async isErrorMessageDisplayed() {
-      return this.isDisplayed(this.$errorMessageContainer);
-    }
+    clickLoginButton = async () =>  await this.page.click(this.#loginButton);
     
-    async getErrorMessage() {
-      return this.getText(this.$errorMessageContainer);
-    }
+    usernameIsRequiredErrorDisplayed = async () => await this.isDisplayed(this.#usernameInput + this.#inputErrorValidation)
+
+    passwordIsRequiredErrorDisplayed = async () => await this.isDisplayed(this.#passwordInput + this.#inputErrorValidation)
+
+    isErrorMessageDisplayed = async () => await this.isDisplayed(this.#errorMessageContainer);
+    
+    getErrorMessage = async () => await this.getText(this.#errorMessageContainer)
 }
