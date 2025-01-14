@@ -1,0 +1,7 @@
+services:
+  test:
+    image: gonzalofquispe/playwright-framework:latest
+    command: 'npx playwright test'
+    volumes:
+      - ./playwright-report:/app/playwright-report
+    working_dir: /app
