@@ -7,26 +7,16 @@ export default class BasePage {
       this.page = page;
     }
 
-    async setPage(page) {
-      this.page = page;
-    }
+    setPage = async  (page) => this.page = page;
 
-    async navigate(url) {
-      await this.page.goto(`${this.#BASE_URL}${url}`);
-    }
+    navigate = async (url) => await this.page.goto(`${this.#BASE_URL}${url}`);
 
-    async getElementProperty(selector, property) {
-      return this.page.$eval(selector, (element, prop) => element[prop], property);
-    }
+    getElementProperty = async (selector, property) => await this.page.$eval(selector, (element, prop) => element[prop], property);
 
-    async getText(selector) {
-      return this.getElementProperty(selector, 'textContent');
-    }
+    getText = async (selector) => await this.getElementProperty(selector, 'textContent');
     
-    async getValue(selector) {
-      return this.getElementProperty(selector, 'value');
-    }
-
+    getValue = async (selector) => await this.getElementProperty(selector, 'value');
+  
     async isDisplayed(selector, { timeout = 5000 } = { }) {
       try {
         await this.page.waitForSelector(selector, { timeout });
@@ -36,13 +26,9 @@ export default class BasePage {
       }
     }
     
-    async waitForPageLoaded() {
-      await this.page.waitForSelector(this.#loadingPage);
-    }
+    waitForPageLoaded = async () => await this.page.waitForSelector(this.#loadingPage);
     
-    async getElementsProperties(selector, property) {
-      return this.page.$$eval(selector, (elements, prop) => elements.map((e) => e[prop]), property);
-    }
+    getElementsProperties = async (selector, property) => await this.page.$$eval(selector, (elements, prop) => elements.map((e) => e[prop]), property);
 
     async selectByOptionText(dropdownSelector, option) {
       const optionTexts = await this.getElementsProperties(`${dropdownSelector} option`, 'textContent');
