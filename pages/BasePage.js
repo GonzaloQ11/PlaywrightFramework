@@ -1,7 +1,12 @@
+import { Page } from '@playwright/test';
+
 export default class BasePage {
     #BASE_URL = 'https://opensource-demo.orangehrmlive.com/web/index.php/auth/login';
 
     #loadingPage = 'html[class="fontawesome-i2svg-active fontawesome-i2svg-complete"]'
+
+    /** @type {Page} */
+    page;
 
     constructor(page) {
       this.page = page;

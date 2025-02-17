@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 const testdata = {
   user: {
     username: process.env.APP_USERNAME,

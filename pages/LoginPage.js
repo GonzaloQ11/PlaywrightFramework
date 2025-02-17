@@ -22,11 +22,11 @@ export default class LoginPage extends BasePage {
       await this.clickLoginButton();
     }
 
-    typeUsername = async (username) => await this.page.fill(this.#usernameInput, username);
+    typeUsername = async (username) => await this.page.getByPlaceholder('Username').fill(username)
 
-    typePassword = async (password) => await this.page.fill(this.#passwordInput, password);
+    typePassword = async (password) => await this.page.getByPlaceholder("Password").fill(password)
 
-    clickLoginButton = async () =>  await this.page.click(this.#loginButton);
+    clickLoginButton = async () =>  await this.page.getByRole('button', {type:'submit'}).click(this.#loginButton);
     
     usernameIsRequiredErrorDisplayed = async () => await this.isDisplayed(this.#usernameInput + this.#inputErrorValidation)
 
